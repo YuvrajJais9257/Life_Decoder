@@ -39,7 +39,7 @@ Welcome! This website was developed to provide college students with a platform 
 
 ## Demo
 
-Check out a live demo of Note Ninja [here](https://4wdnls.csb.app/)!
+Check out a live demo of Life_Decoder [here](https://life-decoder-princejais9257.onrender.com)!
 
 ## Setup
 
