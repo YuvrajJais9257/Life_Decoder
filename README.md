@@ -33,9 +33,9 @@ Welcome! This website was developed to provide college students with a platform 
 ## Screenshots
 
 ![Blog1](screenshotBlog1.png)
-![Blog1](screenshotBlog2.png)
-![Blog1](screenshotBlog3.png)
-![Blog1](screenshotBlog4.png)
+![Blog2](screenshotBlog2.png)
+![Blog3](screenshotBlog3.png)
+![Blog4](screenshotBlog4.png)
 
 ## Demo
 
