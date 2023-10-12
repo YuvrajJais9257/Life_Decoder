@@ -48,7 +48,7 @@ To run this project locally, follow these steps:
 1. Clone this repository to your local machine.
 
    ```bash
-   git clone [https://github.com/YuvrajJais9257/Life_Decoder.git)](https://github.com/YuvrajJais9257/Life_Decoder.git)
+   git clone https://github.com/YuvrajJais9257/Life_Decoder.git
 
 2. Install Node.js and npm (Node Package Manager) if not already installed on your system.
 3. Install project dependencies by running the following command within the project directory:
