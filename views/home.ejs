@@ -24,7 +24,7 @@
                 <div class="post" id="post-<%= index %>">
                     <h3><%= post.title %></h3>
                     <p><%= post.entry.substring(0, 100) %>...</p>
-                    <a href="/post/<%= index %>">(Read More)</a>
+                    <a href="/post/<%= post._id %>">(Read More)</a>
                 </div>
             <% }); %>
         </ul>

@@ -70,12 +70,14 @@ function checkNotAuthentication(req, res, next) {
 
 // to show posts only if they enter right password
 app.get('/', checkAuthentication, async function (req, res) {
+    const currentUsername = req.session.username; 
+
     try {
-        const posts = await Post.find();
-        res.render('home', { posts: posts, home:home });
+        const userPosts = await Post.find({ user: currentUsername });
+        res.render('home', { posts: userPosts, home: home });
     } catch (error) {
         console.error(error);
-        res.render('home', { posts: [], home:home });
+        res.render('home', { posts: [], home: home });
     }
 });
 
@@ -89,17 +91,25 @@ app.get('/compose', checkAuthentication, function (req, res) {
 
 //to render posts
 app.post("/compose", checkAuthentication, async function (req, res) {
-    const post = new Post({
-        title: req.body.postTitle,
-        entry: req.body.postEntry
-    });
 
-    try {
-        await post.save();
-        res.redirect('/');
-    } catch (error) {
-        console.error(error);
-        res.render('compose', { message: 'An error occurred. Please try again.' });
+    if (req.session && req.session.username) {
+        const currentUsername = req.session.username;
+
+        const post = new Post({
+            title: req.body.postTitle,
+            entry: req.body.postEntry,
+            user: currentUsername,
+        });
+
+        try {
+            await post.save();
+            res.redirect('/');
+        } catch (error) {
+            console.error(error);
+            res.render('compose', { message: 'An error occurred. Please try again.' });
+        }
+    } else {
+        res.redirect('/login'); 
     }
 });
 
@@ -111,21 +121,41 @@ app.get('/contact', function (req, res) {
     res.render('contact', { content: contact });
 });
 
-app.get('/search', function (req, res) {
-    const searchQuery = req.query.search.toLowerCase();
-    const searchResults = posts.filter(post => _.toLower(post.title).includes(searchQuery));
-    res.render('search', { searchResults: searchResults, posts: posts });
+app.get('/search', checkAuthentication, async function (req, res) {
+    const searchQuery = req.query.search;
+    const currentUsername = req.session.username;
+
+    try {
+        const searchResults = await Post.find({
+            title: { $regex: new RegExp(searchQuery, 'i') },
+            user: currentUsername,
+        });
+
+        res.render('search', { searchResults: searchResults, posts: posts });
+    } catch (error) {
+        console.error(error);
+        res.render('search', { noResults: true, posts: posts });
+    }
 });
 
-app.get('/post/:index', function (req, res) {
-    const index = req.params.index;
-    if (index >= 0 && index < posts.length) {
-        const post = posts[index];
-        res.render('post', { post: post });
-    } else {
+
+app.get('/post/:id', async function (req, res) {
+    const postId = req.params.id;
+
+    try {
+        const post = await Post.findById(postId);
+
+        if (post) {
+            res.render('post', { post: post });
+        } else {
+            res.redirect('/');
+        }
+    } catch (error) {
+        console.error(error);
         res.redirect('/');
     }
 });
+
 
 app.post('/login', async function (req, res) {
     const username = req.body.username;
@@ -154,6 +184,7 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/create-user', checkNotAuthentication, function (req, res) {
+    
     res.render('create-user', { message: '' });
 });
 
@@ -165,8 +196,7 @@ app.post('/create-user', checkNotAuthentication, async function (req, res) {
         const existingUser = await User.findOne({ username: username });
         if (existingUser) {
             res.render('create-user', { message: 'Username already exists. Please choose a different one.' });
-        }
-        else {
+        } else {
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = new User({
                 username: username,
@@ -175,7 +205,7 @@ app.post('/create-user', checkNotAuthentication, async function (req, res) {
 
             await newUser.save();
             req.session.isAuthenticated = true;
-            req.session.username = username;
+            req.session.username = username; 
             res.redirect('/');
         }
     }

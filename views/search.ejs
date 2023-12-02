@@ -16,10 +16,12 @@
     <main>
         <h1>Search Results</h1>
         <ul>
-            <% if (searchResults.length > 0) { %>
+            <% if (searchResults && searchResults.length > 0) { %>
                 <% searchResults.forEach(function (post, index) { %>
                     <div class="post" id="post-<%= index %>">
-                        <a href="/post/<%= posts.indexOf(post) %>"><h3><%= post.title %></h3></a>
+                        <a href="/post/<%= posts.indexOf(post) %>">
+                            <h3><%= post.title %></h3>
+                        </a>
                         <p><%= post.entry.substring(0, 100) %>...</p>
                     </div>
                 <% }); %>
