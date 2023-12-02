@@ -13,20 +13,11 @@
 </head>
 
 <body>
-    <%- include ('partials/header') %>
-    <% if (!userIsAuthenticated) { %>
-        <form action="/login" method="post">
-            <label for="password">Password: </label>
-            <input type="password" name="password" id="password">
-            <button type="submit">Login</button>
-        </form>
-    <% } %>    
+    <%- include ('partials/header') %>    
     <main>
         <h1>Home</h1>
-        <% if (userIsAuthenticated) { %>
-            <p><%= content %></p>
-        <% } else { %>
-            <p>Sorry, you don't have access to this content.</p>
+        <% if (home) { %>
+            <p class="home-info"><%= home %></p>
         <% } %>
         <ul>
             <% posts.forEach(function (post, index) { %>
