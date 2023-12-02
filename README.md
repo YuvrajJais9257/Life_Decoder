@@ -41,7 +41,7 @@ Welcome! This website was developed to provide college students with a platform 
 
 ## Demo
 
-Check out a live demo of Life_Decoder [here](https://life-decoder-princejais9257.onrender.com)!
+Check out a live demo of Life_Decoder [here](https://lifedecoder-yuvrajjais9257.onrender.com)!
 
 ## Setup
 
