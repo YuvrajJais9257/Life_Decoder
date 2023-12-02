@@ -28,6 +28,8 @@ Welcome! This website was developed to provide college students with a platform 
 - jQuery
 - Bootstrap
 - Node.js
+- MongoDB
+- Express.js
 
    
 ## Screenshots
